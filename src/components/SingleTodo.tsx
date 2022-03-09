@@ -13,11 +13,14 @@ const SingleTodo: React.FC<{
 }> = ({ index, todo, todos, setTodos }) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editTodo, setEditTodo] = useState<string>(todo.todo);
-
   const inputRef = useRef<HTMLInputElement>(null);
+  // useRef is a hook that allows to directly create a reference to the DOM element  
+  // <HTMLInputElement> is basically the type of variable inputref   
+
   useEffect(() => {
-    inputRef.current?.focus();
+    inputRef.current?.blur();
   }, [edit]);
+  // whenever edit will change it will focus on it 
 
   const handleEdit = (e: React.FormEvent, id: number) => {
     e.preventDefault();

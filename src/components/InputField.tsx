@@ -5,6 +5,7 @@ interface props {
   todo: string;
   setTodo: React.Dispatch<React.SetStateAction<string>>;
   handleAdd: (e: React.FormEvent) => void;
+  // difference between void and never is void returns undefined whereas never does not return anything 
 }
 
 const InputField: React.FC<props> = ({ todo, setTodo, handleAdd }) => {
@@ -16,6 +17,7 @@ const InputField: React.FC<props> = ({ todo, setTodo, handleAdd }) => {
       onSubmit={(e) => {
         handleAdd(e);
         inputRef.current?.blur();
+        // since we wanted to bring the state back to its original once we entered the task, we added blur()
       }}
     >
       <input
