@@ -7,20 +7,24 @@ import { Draggable } from "react-beautiful-dnd";
 
 const SingleTodo: React.FC<{
   index: number;
+  // index is added to know which todo is dragged
   todo: Todo;
   todos: Array<Todo>;
   setTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
+  // React.Dispatch<React.SetStateAction<Array<Todo>>> is  basically the type of setTodos
 }> = ({ index, todo, todos, setTodos }) => {
+
   const [edit, setEdit] = useState<boolean>(false);
   const [editTodo, setEditTodo] = useState<string>(todo.todo);
+  // in todo.todo first todo is a parameter and second todo is a a stirng that we entered
   const inputRef = useRef<HTMLInputElement>(null);
   // useRef is a hook that allows to directly create a reference to the DOM element  
   // <HTMLInputElement> is basically the type of variable inputref   
 
   useEffect(() => {
-    inputRef.current?.blur();
+    inputRef.current?.focus();
   }, [edit]);
-  // whenever edit will change it will focus on it 
+  // whenever we will click the edit button it will send the cursor to the edit box 
 
   const handleEdit = (e: React.FormEvent, id: number) => {
     e.preventDefault();
@@ -45,11 +49,14 @@ const SingleTodo: React.FC<{
   return (
     <Draggable draggableId={todo.id.toString()} index={index}>
       {(provided, snapshot) => (
+    // <Draggable /> - What can be dragged around
+    // Draggable is added here because we want our SingleTodo (means single todo item) to be Draggable
         <form
           onSubmit={(e) => handleEdit(e, todo.id)}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
+          // ref is provided so that it can control it properly
           className={`todos__single ${snapshot.isDragging ? "drag" : ""}`}
         >
           {edit ? (
@@ -69,6 +76,7 @@ const SingleTodo: React.FC<{
               className="icon"
               onClick={() => {
                 if (!edit && !todo.isDone) {
+                // means if edit mode is not on and if it is not done because if it is done then what is the point of editing it
                   setEdit(!edit);
                 }
               }}
